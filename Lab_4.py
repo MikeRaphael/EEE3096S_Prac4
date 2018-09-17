@@ -10,6 +10,8 @@ GPIO.setmode(GPIO.BCM) # use GPIO pin numbering
 
 # Global Variables
 startTime = time.localtime() # Stores local time
+frequency = 0.5	# Default is 0.5s
+
 
 # SPI pin definition
 SPICLK = 11
@@ -44,7 +46,16 @@ def reset(value):
   startTime= time.localtime()
   os.system('clear')
 	
-
+# Change the frequency(2 Hz, 1 Hz, 0.5 Hz) of monitoring.
+# Loop through possible frequencies  
+def frequencyControl(value):
+  global frequency
+  if(frequency < 2):
+    frequency *=2
+  else:
+    frequency = 0.5
+  print("The frequency has been altered to", frequency)
+	
 try:
     while True:
         
