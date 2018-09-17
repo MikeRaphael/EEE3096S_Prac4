@@ -3,9 +3,20 @@
 import RPi.GPIO as GPIO
 import time
 import Adafruit_MCP3008
+import os
 
 #Setup
 GPIO.setmode(GPIO.BCM) # use GPIO pin numbering
+
+# Global Variables
+startTime = time.localtime() # Stores local time
+frequency = 0.5	# Default is 0.5s
+values = [0]*3
+monitor = True
+count = 0
+data =""
+displayStr = ""
+disp = False
 
 # SPI pin definition
 SPICLK = 11
@@ -34,6 +45,54 @@ GPIO.setup(stopButton, GPIO.IN, pull_up_down=GPIO.PUD_UP) # set GPIO24 as input 
 GPIO.setup(displayButton, GPIO.IN, pull_up_down=GPIO.PUD_UP) # set GPIO25 as input (Display button)
 
 
+# Reset timer and clean console
+def reset(value):
+  global startTime 
+  startTime= time.localtime()
+  os.system('clear')
+	
+# Change the frequency(2 Hz, 1 Hz, 0.5 Hz) of monitoring.
+# Loop through possible frequencies  
+def frequencyControl(value):
+  global frequency
+  if(frequency < 2):
+    frequency *=2
+  else:
+    frequency = 0.5
+  print("The frequency has been altered to", frequency)
+  
+def stop(value):
+  global monitor
+  global count
+  global data
+  monitor = not monitor
+  count = 0
+  data =""
+  print("Monitoring ongoing?", monitor)
+  
+		
+		
+
+# Displays the first five readings since the stop switch was 
+# pressed		
+def display(value):
+  #global disp = True
+  consoleHeader()
+  print(data)
+
+
+# Prints out to the console format
+def consoleHeader():
+  stringTime = "Time"
+  stringTimer = "Timer"
+  stringPot = "Pot"
+  stringTemp = "Temp"
+  stringLight = "Light"
+  head = '{:10}{:10}{:10}{:10}{:10}'.format(stringTime,stringTimer,stringPot,stringTemp,stringLight)
+  print(head)	
+		
+		
+	
 try:
     while True:
         
