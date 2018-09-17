@@ -3,9 +3,13 @@
 import RPi.GPIO as GPIO
 import time
 import Adafruit_MCP3008
+import os
 
 #Setup
 GPIO.setmode(GPIO.BCM) # use GPIO pin numbering
+
+# Global Variables
+startTime = time.localtime() # Stores local time
 
 # SPI pin definition
 SPICLK = 11
@@ -33,6 +37,13 @@ GPIO.setup(frequencyButton, GPIO.IN, pull_up_down=GPIO.PUD_UP) # set GPIO23 as i
 GPIO.setup(stopButton, GPIO.IN, pull_up_down=GPIO.PUD_UP) # set GPIO24 as input (Stop button)
 GPIO.setup(displayButton, GPIO.IN, pull_up_down=GPIO.PUD_UP) # set GPIO25 as input (Display button)
 
+
+# Reset timer and clean console
+def reset(value):
+  global startTime 
+  startTime= time.localtime()
+  os.system('clear')
+	
 
 try:
     while True:
