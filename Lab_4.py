@@ -153,5 +153,3 @@ try:
 except KeyboardInterrupt:
     #CleanUp
     GPIO.cleanup()    
-          
-
