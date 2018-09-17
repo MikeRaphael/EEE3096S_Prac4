@@ -142,6 +142,11 @@ def sensorIn():
 		
 		
 # Main program loop	
+
+GPIO.add_event_detect(resetButton, GPIO.FALLING,reset,bouncetime=200)
+GPIO.add_event_detect(frequencyButton, GPIO.FALLING, frequencyControl, bouncetime=200)
+GPIO.add_event_detect(stopButton, GPIO.FALLING, stop, bouncetime=200)
+GPIO.add_event_detect(displayButton, GPIO.FALLING, display, bouncetime=200)
 try:
     while True:
         sensorIn()
